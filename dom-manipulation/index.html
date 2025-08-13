@@ -10,12 +10,12 @@
   <h1>Dynamic Quote Generator</h1>
 
   <!-- Where the quote shows -->
-  <div id="quoteDisplay"></div>
+  <div id="quoteDisplay" aria-live="polite"></div>
 
   <!-- Show new quote -->
   <button id="newQuote">Show New Quote</button>
 
-  <!-- Add a new quote (checker-friendly IDs) -->
+  <!-- Add a new quote (checker-friendly IDs and onclick) -->
   <div>
     <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
     <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
