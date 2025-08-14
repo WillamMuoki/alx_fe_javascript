@@ -2,25 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dynamic Quote Generator</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { margin-bottom: 0.5rem; }
+    #quoteDisplay { margin: 1rem 0; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; min-height: 64px; }
+    blockquote { margin: 0; font-size: 1.2rem; }
+    .meta { margin-top: 0.25rem; font-size: 0.9rem; opacity: 0.8; }
+    .row { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+    input[type="text"] { padding: 0.5rem; flex: 1 1 240px; }
+    button { padding: 0.55rem 0.9rem; cursor: pointer; border-radius: 8px; border: 1px solid #ccc; background: #f7f7f7; }
+    button:hover { background: #eee; }
+    .hint { font-size: 0.9rem; opacity: 0.8; margin-top: 0.25rem; }
+  </style>
 </head>
 <body>
   <h1>Dynamic Quote Generator</h1>
 
-  <!-- Where the quote shows -->
-  <div id="quoteDisplay" aria-live="polite"></div>
+  <!-- Where quotes will be rendered -->
+  <div id="quoteDisplay"></div>
 
-  <!-- Show new quote -->
-  <button id="newQuote">Show New Quote</button>
+  <!-- Controls -->
+  <div class="row" style="margin-bottom: 1rem;">
+    <button id="newQuote">Show New Quote</button>
+  </div>
 
-  <!-- Add a new quote (checker-friendly IDs and onclick) -->
-  <div>
+  <!-- Add new quote -->
+  <div class="row">
     <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
     <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
-    <button onclick="addQuote()">Add Quote</button>
+    <!-- inline onclick kept exactly as your brief shows, but JS also wires things up -->
+    <button id="addQuoteBtn" onclick="addQuote()">Add Quote</button>
   </div>
+  <div class="hint">Tip: add a few quotes, then click “Show New Quote”.</div>
 
   <script src="script.js"></script>
 </body>
