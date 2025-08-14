@@ -3,26 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quote App</title>
- <link rel="stylesheet"href="style.css"
+  <title>Dynamic Quote Generator with Categories</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+    }
+    #quoteDisplay {
+      font-size: 1.2em;
+      background: white;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    select, input, button {
+      padding: 8px;
+      margin: 5px 0;
+    }
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+  </style>
 </head>
 <body>
 
-  <h1>Quote App</h1>
+  <h1>Dynamic Quote Generator</h1>
 
-  <!-- Random Quote Display -->
+  <!-- Category Filter -->
+  <label for="categoryFilter">Filter by Category:</label>
+  <select id="categoryFilter" onchange="filterQuotes()">
+    <option value="all">All Categories</option>
+  </select>
+
+  <!-- Quote Display -->
   <div id="quoteDisplay">Click "Show Random Quote" to begin</div>
 
-  <!-- Buttons for Actions -->
+  <!-- Action Buttons -->
   <button onclick="showRandomQuote()">Show Random Quote</button>
   <button onclick="exportToJsonFile()">Export Quotes</button>
   <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
 
-  <!-- Dynamic Add Quote Form -->
+  <!-- Add Quote Form -->
   <div id="addQuoteForm"></div>
 
-  <!-- Link to Script -->
   <script src="script.js"></script>
-
 </body>
 </html>
