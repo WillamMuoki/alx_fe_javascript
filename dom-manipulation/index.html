@@ -1,41 +1,45 @@
  <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dynamic Quote Generator</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dynamic Quote Generator (Storage + Import/Export)</title>
   <style>
-    body { font-family: system-ui, Arial, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
-    h1 { margin-bottom: 0.5rem; }
-    #quoteDisplay { margin: 1rem 0; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; min-height: 64px; }
+    body { font-family: system-ui, Arial, sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { margin-bottom: 0.25rem; }
+    #quoteDisplay { min-height: 72px; border: 1px solid #ddd; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
     blockquote { margin: 0; font-size: 1.2rem; }
-    .meta { margin-top: 0.25rem; font-size: 0.9rem; opacity: 0.8; }
-    .row { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
-    input[type="text"] { padding: 0.5rem; flex: 1 1 240px; }
-    button { padding: 0.55rem 0.9rem; cursor: pointer; border-radius: 8px; border: 1px solid #ccc; background: #f7f7f7; }
-    button:hover { background: #eee; }
-    .hint { font-size: 0.9rem; opacity: 0.8; margin-top: 0.25rem; }
+    .meta { margin-top: 0.25rem; font-size: 0.9rem; color: #555; }
+    .row { display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center; margin-bottom:0.5rem; }
+    input[type="text"] { padding:0.5rem; min-width:200px; flex:1 1 220px; }
+    button { padding:0.5rem 0.8rem; border-radius:6px; cursor:pointer; border:1px solid #ccc; background:#f7f7f7; }
   </style>
 </head>
 <body>
   <h1>Dynamic Quote Generator</h1>
 
-  <!-- Where quotes will be rendered -->
   <div id="quoteDisplay"></div>
 
-  <!-- Controls -->
-  <div class="row" style="margin-bottom: 1rem;">
+  <div class="row">
     <button id="newQuote">Show New Quote</button>
   </div>
 
-  <!-- Add new quote -->
-  <div class="row">
+  <!-- Add new quote (IDs are required by script) -->
+  <div class="row" id="addQuoteArea">
     <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
     <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
-    <!-- inline onclick kept exactly as your brief shows, but JS also wires things up -->
+    <!-- inline onclick is OK; script will replace/wire safely -->
     <button id="addQuoteBtn" onclick="addQuote()">Add Quote</button>
   </div>
-  <div class="hint">Tip: add a few quotes, then click “Show New Quote”.</div>
+
+  <hr />
+
+  <!-- Export / Import controls -->
+  <div class="row">
+    <button id="exportBtn">Export Quotes (JSON)</button>
+    <!-- We do not put inline onchange here; script will wire the input -->
+    <input type="file" id="importFile" accept=".json" />
+  </div>
 
   <script src="script.js"></script>
 </body>
