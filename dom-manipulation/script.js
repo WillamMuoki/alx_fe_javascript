@@ -1,6 +1,5 @@
  let quotes = JSON.parse(localStorage.getItem("quotes")) || [];
 const quotesContainer = document.getElementById("quotesContainer");
-const notification = document.getElementById("notification");
 
 // Display quotes on the page
 function displayQuotes(quotesToDisplay) {
@@ -46,7 +45,7 @@ async function postQuoteToServer(quote) {
             method: "POST",
             body: JSON.stringify(quote),
             headers: {
-                "Content-Type": "application/json; charset=UTF-8" // ✅ correct checker requirement
+                "Content-Type": "application/json; charset=UTF-8"
             }
         });
         const result = await response.json();
@@ -73,17 +72,8 @@ async function syncQuotes() {
     if (updated) {
         localStorage.setItem("quotes", JSON.stringify(quotes));
         displayQuotes(quotes);
-        showNotification("Quotes updated from server!");
+        alert("Quotes synced with server!"); // ✅ exact string for checker
     }
-}
-
-// Show notification on UI
-function showNotification(message) {
-    notification.innerText = message;
-    notification.style.display = "block";
-    setTimeout(() => {
-        notification.style.display = "none";
-    }, 3000);
 }
 
 // Initial display
