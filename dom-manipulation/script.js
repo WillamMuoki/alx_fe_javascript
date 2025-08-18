@@ -11,37 +11,63 @@ function showRandomQuote() {
   const randomIndex = Math.floor(Math.random() * quotes.length);
   const quote = quotes[randomIndex];
 
-  // Update the DOM with innerHTML
-  document.getElementById("quoteDisplay").innerHTML = `
-    <p>"${quote.text}"</p>
-    <small>Category: ${quote.category}</small>
-  `;
+  const quoteDisplay = document.getElementById("quoteDisplay");
+  quoteDisplay.innerHTML = ""; // Clear previous content
+
+  // Create elements manually
+  const p = document.createElement("p");
+  p.textContent = `"${quote.text}"`;
+
+  const small = document.createElement("small");
+  small.textContent = `Category: ${quote.category}`;
+
+  // Append to container
+  quoteDisplay.appendChild(p);
+  quoteDisplay.appendChild(small);
 }
 
 // Function to add a new quote
 function addQuote(text, category) {
   quotes.push({ text, category });
-  showRandomQuote(); // Show a random (possibly new) quote
+  showRandomQuote(); // Immediately show updated list
 }
 
 // Function to create a form for adding quotes
 function createAddQuoteForm() {
   const formContainer = document.getElementById("formContainer");
+  formContainer.innerHTML = ""; // Clear any existing form
 
-  formContainer.innerHTML = `
-    <input type="text" id="quoteText" placeholder="Enter quote" />
-    <input type="text" id="quoteCategory" placeholder="Enter category" />
-    <button id="addQuoteBtn">Add Quote</button>
-  `;
+  // Create input for quote text
+  const inputText = document.createElement("input");
+  inputText.type = "text";
+  inputText.id = "quoteText";
+  inputText.placeholder = "Enter quote";
 
-  document.getElementById("addQuoteBtn").addEventListener("click", function () {
-    const text = document.getElementById("quoteText").value.trim();
-    const category = document.getElementById("quoteCategory").value.trim();
+  // Create input for category
+  const inputCategory = document.createElement("input");
+  inputCategory.type = "text";
+  inputCategory.id = "quoteCategory";
+  inputCategory.placeholder = "Enter category";
+
+  // Create button
+  const button = document.createElement("button");
+  button.id = "addQuoteBtn";
+  button.textContent = "Add Quote";
+
+  // Append inputs and button
+  formContainer.appendChild(inputText);
+  formContainer.appendChild(inputCategory);
+  formContainer.appendChild(button);
+
+  // Add event listener
+  button.addEventListener("click", function () {
+    const text = inputText.value.trim();
+    const category = inputCategory.value.trim();
 
     if (text && category) {
       addQuote(text, category);
-      document.getElementById("quoteText").value = "";
-      document.getElementById("quoteCategory").value = "";
+      inputText.value = "";
+      inputCategory.value = "";
     } else {
       alert("Please enter both quote and category!");
     }
