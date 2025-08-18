@@ -21,11 +21,36 @@ function showRandomQuote() {
 // Function to add a new quote
 function addQuote(text, category) {
   quotes.push({ text, category });
-  showRandomQuote(); // Show the new quote immediately
+  showRandomQuote(); // Show a random (possibly new) quote
+}
+
+// Function to create a form for adding quotes
+function createAddQuoteForm() {
+  const formContainer = document.getElementById("formContainer");
+
+  formContainer.innerHTML = `
+    <input type="text" id="quoteText" placeholder="Enter quote" />
+    <input type="text" id="quoteCategory" placeholder="Enter category" />
+    <button id="addQuoteBtn">Add Quote</button>
+  `;
+
+  document.getElementById("addQuoteBtn").addEventListener("click", function () {
+    const text = document.getElementById("quoteText").value.trim();
+    const category = document.getElementById("quoteCategory").value.trim();
+
+    if (text && category) {
+      addQuote(text, category);
+      document.getElementById("quoteText").value = "";
+      document.getElementById("quoteCategory").value = "";
+    } else {
+      alert("Please enter both quote and category!");
+    }
+  });
 }
 
 // Event listener for "Show New Quote" button
 document.getElementById("newQuoteBtn").addEventListener("click", showRandomQuote);
 
-// Initial quote display
+// Initial setup
 showRandomQuote();
+createAddQuoteForm();
