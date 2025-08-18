@@ -1,24 +1,31 @@
  // Quotes array with text and category
 const quotes = [
-    { text: "The best way to get started is to quit talking and begin doing.", category: "Motivation" },
-    { text: "Don't let yesterday take up too much of today.", category: "Inspiration" },
-    { text: "It's not whether you get knocked down, it's whether you get up.", category: "Resilience" }
+  { text: "The best way to get started is to quit talking and begin doing.", category: "Motivation" },
+  { text: "Don’t let yesterday take up too much of today.", category: "Inspiration" },
+  { text: "It’s not whether you get knocked down, it’s whether you get up.", category: "Perseverance" },
+  { text: "If you are working on something exciting, it will keep you motivated.", category: "Work" }
 ];
 
 // Function to display a random quote
-function displayRandomQuote() {
-    const randomIndex = Math.floor(Math.random() * quotes.length);
-    const randomQuote = quotes[randomIndex];
+function showRandomQuote() {
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  const quote = quotes[randomIndex];
 
-    document.getElementById("quoteDisplay").innerText = randomQuote.text;
-    document.getElementById("quoteCategory").innerText = `Category: ${randomQuote.category}`;
+  // Update the DOM with innerHTML
+  document.getElementById("quoteDisplay").innerHTML = `
+    <p>"${quote.text}"</p>
+    <small>Category: ${quote.category}</small>
+  `;
 }
 
 // Function to add a new quote
 function addQuote(text, category) {
-    quotes.push({ text, category });
-    displayRandomQuote(); // update the DOM with the new quote
+  quotes.push({ text, category });
+  showRandomQuote(); // Show the new quote immediately
 }
 
 // Event listener for "Show New Quote" button
-document.getElementById("newQuoteBtn").addEventListener("click", displayRandomQuote);
+document.getElementById("newQuoteBtn").addEventListener("click", showRandomQuote);
+
+// Initial quote display
+showRandomQuote();
