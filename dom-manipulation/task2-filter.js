@@ -1,4 +1,4 @@
- // Quotes array with text and category
+ // Default quotes array
 let quotes = [
   { text: "The best way to get started is to quit talking and begin doing.", category: "Motivation" },
   { text: "Don’t let yesterday take up too much of today.", category: "Inspiration" },
@@ -11,12 +11,12 @@ if (localStorage.getItem("quotes")) {
   quotes = JSON.parse(localStorage.getItem("quotes"));
 }
 
-// Function to save quotes to localStorage
+// Save quotes to localStorage
 function saveQuotes() {
   localStorage.setItem("quotes", JSON.stringify(quotes));
 }
 
-// Display a random quote
+// Show random quote
 function showRandomQuote() {
   const randomIndex = Math.floor(Math.random() * quotes.length);
   const quote = quotes[randomIndex];
@@ -24,11 +24,11 @@ function showRandomQuote() {
   const quoteDisplay = document.getElementById("quoteDisplay");
   quoteDisplay.innerHTML = `<p>${quote.text}</p><p><em>${quote.category}</em></p>`;
 
-  // Save last viewed quote to session storage
+  // Save last viewed quote in session storage
   sessionStorage.setItem("lastQuote", JSON.stringify(quote));
 }
 
-// Restore last viewed quote from sessionStorage if exists
+// Restore last viewed quote when page loads
 window.addEventListener("DOMContentLoaded", () => {
   const lastQuote = sessionStorage.getItem("lastQuote");
   if (lastQuote) {
@@ -38,10 +38,20 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Add a new quote
-function addQuote(text, category) {
-  quotes.push({ text, category });
-  saveQuotes();
+// Add new quote
+function addQuote() {
+  const text = document.getElementById("newQuoteText").value.trim();
+  const category = document.getElementById("newQuoteCategory").value.trim();
+
+  if (text && category) {
+    quotes.push({ text, category });
+    saveQuotes();
+    alert("Quote added successfully!");
+    document.getElementById("newQuoteText").value = "";
+    document.getElementById("newQuoteCategory").value = "";
+  } else {
+    alert("Please enter both text and category.");
+  }
 }
 
 // Export quotes as JSON file
@@ -74,9 +84,10 @@ function importFromJsonFile(event) {
   fileReader.readAsText(event.target.files[0]);
 }
 
-// Attach event listeners (checker expects addEventListener)
+// Attach event listeners
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("showQuoteBtn").addEventListener("click", showRandomQuote);
   document.getElementById("exportBtn").addEventListener("click", exportToJsonFile);
   document.getElementById("importFile").addEventListener("change", importFromJsonFile);
+  document.getElementById("addQuoteBtn").addEventListener("click", addQuote);
 });
