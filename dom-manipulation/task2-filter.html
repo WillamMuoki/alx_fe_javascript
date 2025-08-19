@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic Quote Generator - Storage</title>
+  <link rel="stylesheet" href="task3-storage.css">
+</head>
+<body>
+  <h1>Dynamic Quote Generator with Storage</h1>
+
+  <div id="quoteDisplay"></div>
+  <button onclick="showRandomQuote()">Show New Quote</button>
+
+  <h2>Add a New Quote</h2>
+  <form id="addQuoteForm">
+    <input type="text" id="quoteText" placeholder="Enter quote text" required>
+    <input type="text" id="quoteCategory" placeholder="Enter category" required>
+    <button type="submit">Add Quote</button>
+  </form>
+
+  <h2>Import / Export Quotes</h2>
+  <button onclick="exportToJsonFile()">Export Quotes (JSON)</button>
+  <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+
+  <script src="task3-storage.js" defer></script>
+</body>
+</html>
