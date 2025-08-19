@@ -297,7 +297,7 @@ function getFilteredQuotes() {
 
 
 
-let quotes = JSON.parse(localStorage.getItem("quotes")) || [];
+ let quotes = JSON.parse(localStorage.getItem("quotes")) || [];
 
 // ✅ Save quotes to localStorage
 function saveQuotes() {
@@ -314,59 +314,69 @@ function loadQuotes() {
 function displayQuotes() {
   const list = document.getElementById("quoteList");
   list.innerHTML = "";
-  quotes.forEach((q, i) => {
+  quotes.forEach((q) => {
     const li = document.createElement("li");
     li.textContent = `"${q.text}" - ${q.author}`;
     list.appendChild(li);
   });
 }
 
-// ✅ Add new quote locally + sync to server
-async function addQuote(text, author) {
-  const newQuote = { text, author };
-
-  // Add locally
-  quotes.push(newQuote);
-  saveQuotes();
-  displayQuotes();
-
-  // Try sync with server
-  try {
-    await fetch("https://jsonplaceholder.typicode.com/posts", {
-      method: "POST",
-      body: JSON.stringify(newQuote),
-      headers: { "Content-Type": "application/json" }
-    });
-    console.log("Quote synced with server!");
-  } catch (err) {
-    console.error("Server sync failed, stored locally only", err);
-  }
-}
-
-// ✅ Fetch quotes from server & merge with local
-async function syncWithServer() {
+// ✅ Fetch quotes from server (Mock API)
+async function fetchQuotesFromServer() {
   try {
     const response = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=5");
     const serverQuotes = await response.json();
 
-    // Map server data into quote format
-    const formatted = serverQuotes.map(item => ({
+    // Format server quotes
+    return serverQuotes.map(item => ({
       text: item.title,
       author: "Server"
     }));
-
-    // Conflict Resolution: Server takes precedence
-    quotes = [...formatted, ...quotes];
-    saveQuotes();
-    displayQuotes();
-
-    showNotification("Quotes synced with server (server data prioritized).");
   } catch (err) {
-    console.error("Error syncing with server:", err);
+    console.error("Error fetching from server:", err);
+    return [];
   }
 }
 
-// ✅ Notification for conflicts/updates
+// ✅ Post new quote to server
+async function postQuoteToServer(quote) {
+  try {
+    await fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST",
+      body: JSON.stringify(quote),
+      headers: { "Content-Type": "application/json" }
+    });
+    console.log("Quote posted to server");
+  } catch (err) {
+    console.error("Error posting to server:", err);
+  }
+}
+
+// ✅ Sync quotes (local + server with conflict resolution)
+async function syncQuotes() {
+  const serverQuotes = await fetchQuotesFromServer();
+
+  // Conflict resolution: Server takes precedence
+  quotes = [...serverQuotes, ...quotes];
+  saveQuotes();
+  displayQuotes();
+  showNotification("Quotes synced with server (server data prioritized).");
+}
+
+// ✅ Add new quote
+function addQuote(text, author) {
+  const newQuote = { text, author };
+
+  // Save locally
+  quotes.push(newQuote);
+  saveQuotes();
+  displayQuotes();
+
+  // Post to server
+  postQuoteToServer(newQuote);
+}
+
+// ✅ Notification for updates/conflicts
 function showNotification(message) {
   const note = document.getElementById("notification");
   note.textContent = message;
@@ -374,11 +384,8 @@ function showNotification(message) {
   setTimeout(() => { note.style.display = "none"; }, 3000);
 }
 
-// Auto-sync every 30s
-setInterval(syncWithServer, 30000);
+// ✅ Auto-sync every 30s
+setInterval(syncQuotes, 30000);
 
-// Initialize app
-document.addEventListener("DOMContentLoaded", () => {
-  loadQuotes();
-  syncWithServer(); // initial sync
-});
+// ✅ Initialize
+document.addEventListener("DOMContentLoaded
