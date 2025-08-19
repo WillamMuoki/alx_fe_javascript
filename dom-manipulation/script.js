@@ -285,3 +285,100 @@ function getFilteredQuotes() {
 }
 
 // ✅ Export t
+
+
+
+
+
+
+
+
+
+
+
+
+let quotes = JSON.parse(localStorage.getItem("quotes")) || [];
+
+// ✅ Save quotes to localStorage
+function saveQuotes() {
+  localStorage.setItem("quotes", JSON.stringify(quotes));
+}
+
+// ✅ Load from localStorage
+function loadQuotes() {
+  quotes = JSON.parse(localStorage.getItem("quotes")) || [];
+  displayQuotes();
+}
+
+// ✅ Display quotes in the DOM
+function displayQuotes() {
+  const list = document.getElementById("quoteList");
+  list.innerHTML = "";
+  quotes.forEach((q, i) => {
+    const li = document.createElement("li");
+    li.textContent = `"${q.text}" - ${q.author}`;
+    list.appendChild(li);
+  });
+}
+
+// ✅ Add new quote locally + sync to server
+async function addQuote(text, author) {
+  const newQuote = { text, author };
+
+  // Add locally
+  quotes.push(newQuote);
+  saveQuotes();
+  displayQuotes();
+
+  // Try sync with server
+  try {
+    await fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST",
+      body: JSON.stringify(newQuote),
+      headers: { "Content-Type": "application/json" }
+    });
+    console.log("Quote synced with server!");
+  } catch (err) {
+    console.error("Server sync failed, stored locally only", err);
+  }
+}
+
+// ✅ Fetch quotes from server & merge with local
+async function syncWithServer() {
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=5");
+    const serverQuotes = await response.json();
+
+    // Map server data into quote format
+    const formatted = serverQuotes.map(item => ({
+      text: item.title,
+      author: "Server"
+    }));
+
+    // Conflict Resolution: Server takes precedence
+    quotes = [...formatted, ...quotes];
+    saveQuotes();
+    displayQuotes();
+
+    showNotification("Quotes synced with server (server data prioritized).");
+  } catch (err) {
+    console.error("Error syncing with server:", err);
+  }
+}
+
+// ✅ Notification for conflicts/updates
+function showNotification(message) {
+  const note = document.getElementById("notification");
+  note.textContent = message;
+  note.style.display = "block";
+  setTimeout(() => { note.style.display = "none"; }, 3000);
+}
+
+// Auto-sync every 30s
+setInterval(syncWithServer, 30000);
+
+// Initialize app
+document.addEventListener("DOMContentLoaded", () => {
+  loadQuotes();
+  syncWithServer(); // initial sync
+});
