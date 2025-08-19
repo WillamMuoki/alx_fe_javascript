@@ -1,27 +1,30 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Dynamic Quote Generator - Storage</title>
-  <link rel="stylesheet" href="task3-storage.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Quote Generator</title>
 </head>
 <body>
-  <h1>Dynamic Quote Generator with Storage</h1>
+  <h1>Dynamic Quote Generator</h1>
 
-  <div id="quoteDisplay"></div>
-  <button onclick="showRandomQuote()">Show New Quote</button>
+  <!-- Display Area -->
+  <div id="quoteDisplay" style="margin: 20px; font-size: 18px; font-style: italic;">
+    <p>Click "Show New Quote" to get started</p>
+  </div>
 
-  <h2>Add a New Quote</h2>
-  <form id="addQuoteForm">
-    <input type="text" id="quoteText" placeholder="Enter quote text" required>
-    <input type="text" id="quoteCategory" placeholder="Enter category" required>
-    <button type="submit">Add Quote</button>
-  </form>
+  <!-- Buttons -->
+  <button id="showQuoteBtn">Show New Quote</button>
+  <button id="exportBtn">Export Quotes</button>
+  <input type="file" id="importFile" accept=".json" />
 
-  <h2>Import / Export Quotes</h2>
-  <button onclick="exportToJsonFile()">Export Quotes (JSON)</button>
-  <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+  <!-- Add a new quote -->
+  <h3>Add a New Quote</h3>
+  <input type="text" id="newQuoteText" placeholder="Enter quote text" />
+  <input type="text" id="newQuoteCategory" placeholder="Enter category" />
+  <button id="addQuoteBtn">Add Quote</button>
 
-  <script src="task3-storage.js" defer></script>
+  <!-- Script -->
+  <script src="script.js"></script>
 </body>
 </html>
